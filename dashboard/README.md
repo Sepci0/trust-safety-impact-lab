@@ -2,7 +2,7 @@
 
 A T3 Code-style attention dashboard for the inbox firewall, laid out from the team wireframe:
 
-- **Left:** sessions that need you (category label, title, tag on the right), then every category with its sessions.
+- **Left:** sessions that need you (category label, title, tag on the right), then **Settled**: sessions with nothing waiting on you, each still labeled with its category.
 - **Center:** actions needed for the open session (Approve / Reject, plus Approve all / Reject all), then the session's emails stacked like a chat.
 - **Right:** the category, its rules (editable), and a category chat.
 

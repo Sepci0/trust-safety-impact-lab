@@ -1,4 +1,4 @@
-# Inbox triage agent (Track 1)
+# Mail Guard: triage service (Track 1)
 
 One Claude call per email returns category, injection flag, proposed action, `can_handle`, confidence.
 A deterministic gate (`gate()` in `app.py`) then sets `status`:

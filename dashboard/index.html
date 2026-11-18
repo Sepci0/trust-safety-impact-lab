@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Inbox Guard</title>
+<title>Mail Guard</title>
 <style>
 :root {
   --bg: #fbfbfa; --side: #f3f3f1; --panel: #ffffff; --line: #e4e4e0; --line-soft: #ececea;
@@ -193,7 +193,7 @@ kbd { font: 10.5px var(--mono); border: 1px solid var(--line); border-bottom-wid
 <div class="app">
   <!-- LEFT: sessions that need you (top), every category (bottom) -->
   <aside class="col left">
-    <div class="brandbar"><div class="logo">IG</div><div class="brand">Inbox Guard</div>
+    <div class="brandbar"><div class="logo">MG</div><div class="brand">Mail Guard</div>
       <span class="conn" id="conn"><span class="d"></span><span id="connText">connecting</span></span></div>
     <div id="banner"></div>
     <button class="btn-ghost" id="simulate" title="POST a demo email to /emails">＋ Simulate incoming email</button>
@@ -326,7 +326,7 @@ function renderLeft() {
   if (settled.length) settled.forEach((s) => cs.append(sessionRow(s)));
   else cs.append(h("div", "zero-card", "Sessions land here once every action in them is handled."));
   cs.scrollTop = keepC;
-  document.title = total ? `(${total}) Inbox Guard` : "Inbox Guard";
+  document.title = total ? `(${total}) Mail Guard` : "Mail Guard";
 }
 
 // ---------- center ----------

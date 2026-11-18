@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Inbox Triage Agent",
+  "name": "Mail Guard",
   "version": "0.1",
   "description": "Sends opened Gmail emails to the triage agent and shows its decision.",
   "host_permissions": ["https://mail.google.com/*", "http://localhost:8000/*"],

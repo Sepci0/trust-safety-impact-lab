@@ -1,4 +1,4 @@
-// Inbox Guard data layer: attention model, normalize(), API client, demo backend. Loaded by index.html.
+// Mail Guard data layer: attention model, normalize(), API client, demo backend. Loaded by index.html.
 "use strict";
 const store = (k, v) => { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch { return null; } };
 // ---------- attention model (T3 Code's resolveThreadStatusPill, for email) ----------

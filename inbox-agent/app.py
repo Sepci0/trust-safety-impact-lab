@@ -1,4 +1,4 @@
-"""Inbox triage agent: classify an email, decide if the agent may act, expose decisions over HTTP.
+"""Mail Guard: classify an email, decide if the agent may act, expose decisions over HTTP.
 
 Run:  uvicorn app:app --reload --port 8000
 Env:  OPENROUTER_TOKEN, optional TRIAGE_MODEL
@@ -93,7 +93,7 @@ TOOL = {
     },
 }
 
-app =FastAPI(title="Inbox triage agent")
+app =FastAPI(title="Mail Guard")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
 

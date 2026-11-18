@@ -1,4 +1,4 @@
-# Inbox Guard dashboard
+# Mail Guard dashboard
 
 A T3 Code-style attention dashboard for the inbox firewall, laid out from the team wireframe:
 

@@ -69,4 +69,4 @@ The window title reports the open thread's state: "Pending approval", "Awaiting 
 | Working (sky, pulsing) | **Scanning**: the email arrived and the firewall is still deciding |
 | Completed (emerald, unseen) | **Cleared**: allowed automatically, and you haven't seen it yet |
 | Settled shelf | **Done**: items you approved or rejected |
-| Window title status | `(N) Inbox Guard`, where N is the number of items that need you |
+| Window title status | `(N) Mail Guard`, where N is the number of items that need you |

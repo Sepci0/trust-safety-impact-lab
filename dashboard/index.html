@@ -320,16 +320,11 @@ function renderLeft() {
   at.scrollTop = keepA;
 
   const cs = $("cats"), keepC = cs.scrollTop; cs.replaceChildren();
-  cs.append(h("div", "sec h-label", "Categories"));
-  for (const c of categories()) {
-    const open = openCats.has(c.name);
-    const f = h("div", "folder" + (open ? " open" : "") + (c.name === selCategory ? " cur" : ""), h("span", "chev", "›"), h("span", "name", c.name));
-    if (c.kind !== "done") f.append(h("span", `fdot ${c.kind}`));
-    f.append(h("span", "n", String(c.sessions.length)));
-    f.onclick = () => { open ? openCats.delete(c.name) : openCats.add(c.name); store("ig.openCats", JSON.stringify([...openCats])); selCategory = c.name; render(); };
-    cs.append(f);
-    if (open) c.sessions.forEach((s) => cs.append(sessionRow(s, { inCat: true })));
-  }
+  // Settled: sessions with nothing waiting on you, newest first, each tagged with its category (T3's settled shelf)
+  const settled = sessions().filter((s) => !s.needsYou).sort((a, b) => b.t - a.t);
+  cs.append(h("div", "sec h-label", "Settled", h("span", "count", String(settled.length))));
+  if (settled.length) settled.forEach((s) => cs.append(sessionRow(s)));
+  else cs.append(h("div", "zero-card", "Sessions land here once every action in them is handled."));
   cs.scrollTop = keepC;
   document.title = total ? `(${total}) Inbox Guard` : "Inbox Guard";
 }

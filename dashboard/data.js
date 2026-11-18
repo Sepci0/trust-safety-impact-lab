@@ -69,10 +69,10 @@ const asList = (x) => Array.isArray(x) ? x : (x && (x.decisions || x.items || x.
 const demo = (() => {
   const db = new Map(); let n = 0;
   const CATS = [
+    ["Newsletters", /digest|newsletter|unsubscribe|this week/i],
     ["Finance", /invoice|payment|wire|bank|\$\d|receipt|order #|transfer/i],
     ["Scheduling", /meeting|1:1|calendar|thursday|offsite|agenda|pto|saturday/i],
     ["Security", /password|reset|verify|login|account/i],
-    ["Newsletters", /digest|newsletter|unsubscribe|this week/i],
     ["Personal", /dinner|lunch|weekend|family/i],
   ];
   const INJ = /api_call|send (an )?e-?mail|contact@contact|ignore (all|previous|prior)|system|assistant|instruction|<\|?|\bexfil|summar/i;

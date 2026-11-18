@@ -6,84 +6,71 @@
 <title>Inbox Guard</title>
 <style>
 :root {
-  --bg: #fbfbfa; --sidebar: #f3f3f1; --panel: #ffffff; --line: #e4e4e0; --line-soft: #ececea;
-  --fg: #1c1c1a; --muted: #6f6f69; --faint: #9a9a93; --hover: #e9e9e5; --active: #e2e2dd;
-  --accent: #2c2c2a;
-  --amber: #d97706; --amber-dot: #f59e0b;
-  --pink: #c026d3; --pink-dot: #d946ef;
-  --red: #dc2626; --red-dot: #ef4444;
-  --sky: #0284c7; --sky-dot: #0ea5e9;
-  --green: #059669; --green-dot: #10b981;
-  --violet: #7c3aed;
+  --bg: #fbfbfa; --side: #f3f3f1; --panel: #ffffff; --line: #e4e4e0; --line-soft: #ececea;
+  --fg: #1c1c1a; --muted: #6f6f69; --faint: #9a9a93; --hover: #e9e9e5; --active: #e2e2dd; --accent: #2c2c2a;
+  --amber: #b45309; --amber-dot: #f59e0b; --pink: #a21caf; --pink-dot: #d946ef; --red: #dc2626; --red-dot: #ef4444;
+  --sky: #0284c7; --sky-dot: #0ea5e9; --green: #047857; --green-dot: #10b981; --violet: #7c3aed;
   --untrusted: #fdf4ff; --untrusted-line: #f0c6f6;
   --mono: ui-monospace, "SF Mono", Menlo, monospace;
   color-scheme: light;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #161615; --sidebar: #1c1c1b; --panel: #1f1f1e; --line: #2e2e2c; --line-soft: #272725;
-    --fg: #ececea; --muted: #9b9b95; --faint: #6c6c67; --hover: #262624; --active: #2d2d2b; --accent: #ececea;
-    --amber: #fcd34de6; --amber-dot: #fcd34de6; --pink: #f0abfc; --pink-dot: #f0abfce6;
-    --red: #fca5a5e6; --red-dot: #fca5a5e6; --sky: #7dd3fccc; --sky-dot: #7dd3fccc;
-    --green: #6ee7b7e6; --green-dot: #6ee7b7e6; --violet: #c4b5fd;
-    --untrusted: #2a1f2c; --untrusted-line: #4a2f50;
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #161615; --sidebar: #1c1c1b; --panel: #1f1f1e; --line: #2e2e2c; --line-soft: #272725;
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #161615; --side: #1c1c1b; --panel: #1f1f1e; --line: #2e2e2c; --line-soft: #272725;
   --fg: #ececea; --muted: #9b9b95; --faint: #6c6c67; --hover: #262624; --active: #2d2d2b; --accent: #ececea;
-  --amber: #fcd34de6; --amber-dot: #fcd34de6; --pink: #f0abfc; --pink-dot: #f0abfce6;
-  --red: #fca5a5e6; --red-dot: #fca5a5e6; --sky: #7dd3fccc; --sky-dot: #7dd3fccc;
-  --green: #6ee7b7e6; --green-dot: #6ee7b7e6; --violet: #c4b5fd;
-  --untrusted: #2a1f2c; --untrusted-line: #4a2f50;
-  color-scheme: dark;
-}
+  --amber: #fcd34de6; --amber-dot: #fcd34de6; --pink: #f0abfc; --pink-dot: #f0abfce6; --red: #fca5a5e6; --red-dot: #fca5a5e6;
+  --sky: #7dd3fccc; --sky-dot: #7dd3fccc; --green: #6ee7b7e6; --green-dot: #6ee7b7e6; --violet: #c4b5fd;
+  --untrusted: #2a1f2c; --untrusted-line: #4a2f50; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #161615; --side: #1c1c1b; --panel: #1f1f1e; --line: #2e2e2c; --line-soft: #272725;
+  --fg: #ececea; --muted: #9b9b95; --faint: #6c6c67; --hover: #262624; --active: #2d2d2b; --accent: #ececea;
+  --amber: #fcd34de6; --amber-dot: #fcd34de6; --pink: #f0abfc; --pink-dot: #f0abfce6; --red: #fca5a5e6; --red-dot: #fca5a5e6;
+  --sky: #7dd3fccc; --sky-dot: #7dd3fccc; --green: #6ee7b7e6; --green-dot: #6ee7b7e6; --violet: #c4b5fd;
+  --untrusted: #2a1f2c; --untrusted-line: #4a2f50; color-scheme: dark; }
 * { box-sizing: border-box; }
 html, body { margin: 0; height: 100%; }
 body { background: var(--bg); color: var(--fg); font: 13px/1.45 -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
-button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
-.app { display: grid; grid-template-columns: 308px 1fr; height: 100vh; }
+button, input, textarea { font: inherit; color: inherit; }
+button { background: none; border: 0; cursor: pointer; }
+.app { display: grid; grid-template-columns: 300px minmax(0, 1fr) 320px; height: 100vh; }
+.col { display: flex; flex-direction: column; min-height: 0; min-width: 0; }
+.scroll { overflow-y: auto; min-height: 0; }
+.h-label { font-size: 11px; font-weight: 600; color: var(--muted); letter-spacing: .01em; display: flex; align-items: center; gap: 6px; }
+.count { color: var(--faint); font-weight: 500; font-variant-numeric: tabular-nums; }
 
-/* ---------- sidebar ---------- */
-.sidebar { background: var(--sidebar); border-right: 1px solid var(--line); display: flex; flex-direction: column; min-height: 0; }
-.sb-head { display: flex; align-items: center; gap: 8px; padding: 14px 14px 10px; }
+/* ---------- left: sessions ---------- */
+.left { background: var(--side); border-right: 1px solid var(--line); }
+.brandbar { display: flex; align-items: center; gap: 8px; padding: 14px 14px 10px; }
 .logo { width: 20px; height: 20px; border-radius: 6px; background: var(--accent); color: var(--bg); display: grid; place-items: center; font-weight: 700; font-size: 11px; }
 .brand { font-weight: 600; letter-spacing: -0.01em; }
 .conn { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); padding: 2px 8px; border-radius: 99px; border: 1px solid var(--line); }
 .conn .d { width: 6px; height: 6px; border-radius: 99px; background: var(--faint); }
-.conn.live .d { background: var(--green-dot); }
-.conn.demo .d { background: var(--violet); }
-.conn.offline .d { background: var(--red-dot); }
-.sb-actions { padding: 0 10px 8px; display: flex; gap: 6px; }
-.btn-ghost { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 6px 8px; border-radius: 7px; border: 1px solid var(--line); background: var(--panel); font-size: 12px; color: var(--fg); }
+.conn.live .d { background: var(--green-dot); } .conn.demo .d { background: var(--violet); } .conn.offline .d { background: var(--red-dot); }
+.btn-ghost { display: flex; width: calc(100% - 20px); margin: 0 10px 8px; align-items: center; justify-content: center; gap: 6px; padding: 6px 8px; border-radius: 7px; border: 1px solid var(--line); background: var(--panel); font-size: 12px; }
 .btn-ghost:hover { background: var(--hover); }
-.sb-scroll { flex: 1; overflow-y: auto; padding: 4px 6px 12px; min-height: 0; }
-.sec-h { display: flex; align-items: center; gap: 6px; padding: 10px 8px 4px; font-size: 11px; font-weight: 600; color: var(--muted); text-transform: none; letter-spacing: 0.01em; user-select: none; }
-.sec-h .count { font-variant-numeric: tabular-nums; color: var(--faint); font-weight: 500; }
-.sec-h.toggle { cursor: pointer; border-radius: 6px; }
-.sec-h.toggle:hover { color: var(--fg); }
-.chev { width: 10px; display: inline-block; transition: transform .15s; color: var(--faint); }
-.open > .chev, .sec-h.open .chev { transform: rotate(90deg); }
-.needs-h { color: var(--fg); }
-.needs-badge { margin-left: auto; min-width: 18px; padding: 0 6px; height: 18px; border-radius: 99px; background: var(--amber-dot); color: #1c1300; font-size: 11px; font-weight: 700; display: inline-grid; place-items: center; font-variant-numeric: tabular-nums; }
+.banner { margin: 0 10px 8px; padding: 7px 10px; border-radius: 7px; font-size: 11.5px; color: var(--muted); background: color-mix(in srgb, var(--violet) 10%, transparent); border: 1px solid color-mix(in srgb, var(--violet) 25%, var(--line)); }
+.banner b { color: var(--fg); }
+.attn { flex: 1.15 1 0; padding: 0 6px 8px; }
+.split { height: 1px; background: var(--line); margin: 0; flex-shrink: 0; }
+.cats { flex: 1 1 0; padding: 0 6px 8px; }
+.sec { padding: 10px 8px 6px; position: sticky; top: 0; background: var(--side); z-index: 1; }
+.needs-badge { margin-left: auto; min-width: 18px; padding: 0 6px; height: 18px; border-radius: 99px; background: var(--amber-dot); color: #1c1300; font-size: 11px; font-weight: 700; display: inline-grid; place-items: center; }
 .needs-badge.zero { background: var(--line); color: var(--muted); }
 
-.row { display: grid; grid-template-columns: 1fr auto; gap: 1px 8px; padding: 6px 8px; border-radius: 7px; cursor: pointer; position: relative; }
-.row:hover { background: var(--hover); }
-.row.sel { background: var(--active); }
-.row .subj { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; }
-.row .time { font-size: 11px; color: var(--faint); font-variant-numeric: tabular-nums; }
-.row .meta { grid-column: 1 / -1; display: flex; align-items: center; gap: 8px; min-width: 0; font-size: 11.5px; color: var(--muted); }
-.row .meta .who { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.row.quiet .subj { color: var(--muted); font-weight: 400; }
-.row.arrive { animation: arrive 1.6s ease-out; }
-@keyframes arrive { 0% { background: color-mix(in srgb, var(--amber-dot) 28%, transparent); transform: translateY(-4px); opacity: .4; } 25% { transform: none; opacity: 1; } 100% { background: transparent; } }
-.row.sel.arrive { animation: none; }
+.srow { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 0 10px; padding: 7px 9px; border-radius: 8px; cursor: pointer; margin-bottom: 2px; }
+.srow:hover { background: var(--hover); }
+.srow.sel { background: var(--active); }
+.srow .cat { font-size: 10.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.srow .title { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.srow .side { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.srow .time { font-size: 10.5px; color: var(--faint); font-variant-numeric: tabular-nums; }
+.srow.quiet .title { color: var(--muted); font-weight: 400; }
+.srow.arrive { animation: arrive 1.6s ease-out; }
+@keyframes arrive { 0% { background: color-mix(in srgb, var(--amber-dot) 30%, transparent); transform: translateY(-4px); opacity: .4; } 25% { transform: none; opacity: 1; } 100% { background: transparent; } }
+.srow.in-cat { padding-left: 22px; }
+.n-emails { font-size: 10.5px; color: var(--faint); }
 
-/* T3-style status pill: dot + tiny label, one per row, most urgent wins */
-.pill { display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; font-weight: 600; white-space: nowrap; flex-shrink: 0; }
-.pill .dot { width: 6px; height: 6px; border-radius: 99px; background: currentColor; }
+.pill { display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; font-weight: 600; white-space: nowrap; }
+.pill .dot { width: 6px; height: 6px; border-radius: 99px; }
 .pill.approval { color: var(--amber); } .pill.approval .dot { background: var(--amber-dot); }
 .pill.review { color: var(--pink); } .pill.review .dot { background: var(--pink-dot); }
 .pill.blocked { color: var(--red); } .pill.blocked .dot { background: var(--red-dot); }
@@ -94,485 +81,448 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 
 .folder { display: flex; align-items: center; gap: 6px; padding: 6px 8px; border-radius: 7px; cursor: pointer; user-select: none; }
 .folder:hover { background: var(--hover); }
+.folder.cur .name { color: var(--fg); font-weight: 600; }
 .folder .name { font-weight: 500; }
-.folder .n { margin-left: auto; font-size: 11px; color: var(--faint); font-variant-numeric: tabular-nums; }
-.folder .fdot { width: 7px; height: 7px; border-radius: 99px; }
-.fdot.attention { background: var(--amber-dot); } .fdot.review { background: var(--pink-dot); } .fdot.blocked { background: var(--red-dot); }
-.fdot.unread { background: var(--green-dot); } .fdot.scanning { background: var(--sky-dot); animation: pulse 2s infinite; }
-.folder-body { padding-left: 14px; }
-.empty-note { padding: 6px 8px 8px; color: var(--faint); font-size: 12px; }
-.zero-card { margin: 4px 6px 6px; padding: 10px 12px; border: 1px dashed var(--line); border-radius: 8px; color: var(--muted); font-size: 12px; }
-.zero-card b { color: var(--fg); font-weight: 600; }
+.folder .n { margin-left: auto; font-size: 11px; color: var(--faint); }
+.chev { width: 10px; display: inline-block; color: var(--faint); transition: transform .15s; }
+.open > .chev { transform: rotate(90deg); }
+.fdot { width: 7px; height: 7px; border-radius: 99px; }
+.fdot.approval { background: var(--amber-dot); } .fdot.review { background: var(--pink-dot); } .fdot.blocked { background: var(--red-dot); }
+.fdot.cleared { background: var(--green-dot); } .fdot.scanning { background: var(--sky-dot); }
+.zero-card { margin: 2px 4px; padding: 10px 12px; border: 1px dashed var(--line); border-radius: 8px; color: var(--muted); font-size: 12px; }
+.zero-card b { color: var(--fg); }
+.foot { border-top: 1px solid var(--line); padding: 8px 10px; display: flex; gap: 6px; }
+.foot input { flex: 1; min-width: 0; font: 11.5px var(--mono); background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 5px 7px; }
+.foot button { font-size: 11.5px; padding: 5px 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); }
 
-.sb-foot { border-top: 1px solid var(--line); padding: 8px 10px; display: flex; gap: 6px; align-items: center; }
-.sb-foot input { flex: 1; min-width: 0; font: 11.5px var(--mono); color: var(--fg); background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 5px 7px; }
-.sb-foot button { font-size: 11.5px; padding: 5px 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); }
-.sb-foot button:hover { background: var(--hover); }
-
-/* ---------- main ---------- */
-.main { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
-.topbar { display: flex; align-items: center; gap: 10px; padding: 12px 24px; border-bottom: 1px solid var(--line-soft); min-height: 49px; }
-.crumb { color: var(--muted); font-size: 12px; }
-.crumb b { color: var(--fg); font-weight: 500; }
-.kbd-hint { margin-left: auto; color: var(--faint); font-size: 11.5px; display: flex; gap: 10px; }
-kbd { font: 10.5px var(--mono); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; padding: 0 4px; color: var(--muted); background: var(--panel); }
-.detail { flex: 1; overflow-y: auto; padding: 28px 24px 120px; min-height: 0; }
-.detail-inner { max-width: 760px; margin: 0 auto; }
-h1.subject { font-size: 21px; line-height: 1.3; letter-spacing: -0.015em; margin: 10px 0 6px; font-weight: 600; overflow-wrap: anywhere; }
-.from { color: var(--muted); font-size: 12.5px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-.from .src { font: 11px var(--mono); padding: 1px 6px; border-radius: 4px; border: 1px solid var(--line); }
-.card { margin-top: 18px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); overflow: hidden; }
-.card-h { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-bottom: 1px solid var(--line-soft); font-size: 12px; font-weight: 600; color: var(--muted); }
-.card-b { padding: 12px 14px; }
-.ask { font-size: 15px; font-weight: 500; }
-.ask code, .kv code { font: 12.5px var(--mono); background: var(--hover); padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere; }
-.reason { color: var(--muted); margin-top: 6px; overflow-wrap: anywhere; }
-.kv { display: grid; grid-template-columns: 110px 1fr; gap: 6px 12px; font-size: 12.5px; }
-.kv dt { color: var(--muted); } .kv dd { margin: 0; overflow-wrap: anywhere; }
-.card.approval { border-color: color-mix(in srgb, var(--amber-dot) 45%, var(--line)); }
-.card.approval .card-h { color: var(--amber); background: color-mix(in srgb, var(--amber-dot) 8%, transparent); }
-.card.review { border-color: color-mix(in srgb, var(--pink-dot) 45%, var(--line)); }
-.card.review .card-h { color: var(--pink); background: color-mix(in srgb, var(--pink-dot) 8%, transparent); }
-.card.blocked .card-h { color: var(--red); }
-.card.cleared .card-h { color: var(--green); }
-.untrusted { background: var(--untrusted); border-color: var(--untrusted-line); }
-.untrusted .card-h { color: var(--pink); border-bottom-color: var(--untrusted-line); }
-.body-text { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 13.5px; line-height: 1.6; max-height: 420px; overflow-y: auto; }
-.actionbar { position: sticky; bottom: 0; display: flex; gap: 8px; padding: 14px 24px; border-top: 1px solid var(--line-soft); background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(6px); justify-content: center; }
-.actionbar .inner { width: 100%; max-width: 760px; display: flex; gap: 8px; align-items: center; }
-.btn { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 8px; font-weight: 600; font-size: 13px; border: 1px solid var(--line); background: var(--panel); }
+/* ---------- center: actions + emails in session ---------- */
+.center { background: var(--bg); }
+.actions { border-bottom: 1px solid var(--line); padding: 16px 24px 16px; flex-shrink: 0; max-height: 46vh; overflow-y: auto; }
+.actions .h-label { margin-bottom: 10px; }
+.session-title { font-size: 18px; font-weight: 600; letter-spacing: -0.015em; margin: 0 0 2px; overflow-wrap: anywhere; }
+.session-sub { color: var(--muted); font-size: 12px; margin-bottom: 14px; }
+.act { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); margin-bottom: 8px; }
+.act .txt { flex: 1 1 240px; min-width: 0; }
+.bulk { margin-left: auto; display: flex; gap: 6px; }
+.bulk button { font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 6px; border: 1px solid var(--line); background: var(--panel); color: var(--muted); }
+.bulk button:hover { color: var(--fg); background: var(--hover); }
+.act.approval { border-color: color-mix(in srgb, var(--amber-dot) 50%, var(--line)); }
+.act.review { border-color: color-mix(in srgb, var(--pink-dot) 50%, var(--line)); }
+.act .what { font-size: 14px; font-weight: 500; overflow-wrap: anywhere; }
+.act .what code { font: 12.5px var(--mono); background: var(--hover); padding: 1px 5px; border-radius: 4px; }
+.act .why { color: var(--muted); font-size: 12px; overflow-wrap: anywhere; margin-top: 3px; }
+.act .btns { display: flex; gap: 6px; }
+.btn { display: inline-flex; align-items: center; gap: 7px; padding: 7px 12px; border-radius: 8px; font-weight: 600; font-size: 12.5px; border: 1px solid var(--line); background: var(--panel); white-space: nowrap; }
 .btn:hover { background: var(--hover); }
 .btn.primary { background: var(--accent); color: var(--bg); border-color: var(--accent); }
-.btn.primary:hover { opacity: .9; }
-.btn kbd { border-color: currentColor; color: inherit; background: transparent; opacity: .6; }
-.btn:disabled { opacity: .5; cursor: default; }
-.actionbar .note { margin-left: auto; color: var(--faint); font-size: 12px; }
-.resolved { color: var(--muted); font-size: 13px; }
-
-.inbox-zero { height: 100%; display: grid; place-items: center; text-align: center; color: var(--muted); }
-.inbox-zero .big { font-size: 22px; color: var(--fg); font-weight: 600; letter-spacing: -0.015em; margin-bottom: 6px; }
-.stats { display: flex; gap: 18px; justify-content: center; margin-top: 18px; font-size: 12px; }
+.btn kbd { font: 10px var(--mono); opacity: .6; }
+.none { color: var(--muted); font-size: 12.5px; padding: 4px 0; }
+.thread { flex: 1; display: flex; flex-direction: column; padding: 16px 24px 24px; gap: 10px; }
+.thread::before { content: ""; flex: 1; } /* stack emails at the bottom, like a chat */
+.thread .h-label { margin-bottom: 2px; }
+.email { border: 1px solid var(--line); border-radius: 10px; background: var(--panel); padding: 12px 14px; cursor: pointer; max-width: 860px; width: 100%; }
+.email:hover { border-color: var(--faint); }
+.email .top { display: flex; gap: 10px; align-items: center; font-size: 12px; color: var(--muted); }
+.email .top .who { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.email .top .t { margin-left: auto; color: var(--faint); white-space: nowrap; }
+.email .subj { font-weight: 600; margin: 4px 0 4px; overflow-wrap: anywhere; }
+.email .body { white-space: pre-wrap; overflow-wrap: anywhere; color: var(--fg); font-size: 13px; line-height: 1.55; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.email.expanded .body { display: block; background: var(--untrusted); border: 1px solid var(--untrusted-line); border-radius: 7px; padding: 10px 12px; margin-top: 6px; max-height: 360px; overflow-y: auto; }
+.email .reason { font-size: 11.5px; color: var(--muted); margin-top: 6px; overflow-wrap: anywhere; }
+.email .untr { display: none; font-size: 10.5px; color: var(--pink); margin-top: 8px; font-weight: 600; }
+.email.expanded .untr { display: block; }
+.empty-center { flex: 1; display: grid; place-items: center; text-align: center; color: var(--muted); padding: 24px; }
+.empty-center .big { font-size: 22px; color: var(--fg); font-weight: 600; letter-spacing: -0.015em; margin-bottom: 6px; }
+.stats { display: flex; gap: 18px; justify-content: center; margin-top: 16px; font-size: 12px; }
 .stats b { display: block; font-size: 18px; color: var(--fg); font-variant-numeric: tabular-nums; }
+.kbd-hint { color: var(--faint); font-size: 11px; display: flex; gap: 10px; margin-left: auto; font-weight: 400; }
+kbd { font: 10.5px var(--mono); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; padding: 0 4px; color: var(--muted); background: var(--panel); }
 
-.banner { margin: 0 10px 8px; padding: 7px 10px; border-radius: 7px; font-size: 11.5px; background: color-mix(in srgb, var(--violet) 10%, transparent); color: var(--muted); border: 1px solid color-mix(in srgb, var(--violet) 25%, var(--line)); }
-.banner b { color: var(--fg); }
-.toast { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); background: var(--accent); color: var(--bg); padding: 8px 14px; border-radius: 9px; font-size: 12.5px; box-shadow: 0 8px 30px rgba(0,0,0,.18); opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; max-width: calc(100vw - 32px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(-4px); }
+/* ---------- right: category, rules, chat ---------- */
+.right { background: var(--side); border-left: 1px solid var(--line); }
+.rsec { padding: 16px 18px; border-bottom: 1px solid var(--line-soft); }
+.cat-name { font-size: 18px; font-weight: 600; letter-spacing: -0.015em; margin-top: 6px; }
+.cat-stats { display: flex; gap: 14px; margin-top: 8px; font-size: 11.5px; color: var(--muted); }
+.cat-stats b { color: var(--fg); font-variant-numeric: tabular-nums; }
+.rules { list-style: none; margin: 10px 0 8px; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.rules li { display: flex; gap: 8px; align-items: flex-start; padding: 7px 9px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); font-size: 12.5px; }
+.rules li span { flex: 1; overflow-wrap: anywhere; }
+.rules li button { color: var(--faint); font-size: 14px; line-height: 1; padding: 0 2px; }
+.rules li button:hover { color: var(--red); }
+.rules li.base { background: transparent; border-style: dashed; color: var(--muted); }
+.addrow { display: flex; gap: 6px; }
+.addrow input { flex: 1; min-width: 0; padding: 6px 8px; border: 1px solid var(--line); border-radius: 7px; background: var(--panel); font-size: 12.5px; }
+.addrow button { padding: 6px 10px; border: 1px solid var(--line); border-radius: 7px; background: var(--panel); font-size: 12px; font-weight: 600; }
+.chat { flex: 1; display: flex; flex-direction: column; min-height: 220px; padding: 16px 18px; }
+.msgs { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; margin: 10px 0; min-height: 0; }
+.msgs::before { content: ""; flex: 1; }
+.msg { max-width: 88%; padding: 7px 10px; border-radius: 10px; font-size: 12.5px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.msg.me { align-self: flex-end; background: var(--accent); color: var(--bg); border-bottom-right-radius: 3px; }
+.msg.bot { align-self: flex-start; background: var(--panel); border: 1px solid var(--line); border-bottom-left-radius: 3px; }
+.msg .src { display: block; font-size: 10px; color: var(--faint); margin-top: 3px; }
+.chat form { display: flex; gap: 6px; }
+.chat textarea { flex: 1; resize: none; height: 38px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); font-size: 12.5px; }
+.chat form button { padding: 0 12px; border-radius: 8px; background: var(--accent); color: var(--bg); font-weight: 600; font-size: 12px; }
+.muted-note { color: var(--faint); font-size: 11.5px; }
 
-@media (max-width: 760px) {
-  .app { grid-template-columns: 1fr; grid-template-rows: auto 1fr; height: auto; min-height: 100vh; }
-  .sidebar { border-right: 0; border-bottom: 1px solid var(--line); max-height: 52vh; }
-  .detail { padding: 20px 16px 120px; }
-  .topbar { padding: 10px 16px; }
-  .kbd-hint { display: none; }
-  .actionbar { padding: 12px 16px; }
-  .kv { grid-template-columns: 90px 1fr; }
+.toast { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); background: var(--accent); color: var(--bg); padding: 8px 14px; border-radius: 9px; font-size: 12.5px; box-shadow: 0 8px 30px rgba(0,0,0,.18); opacity: 0; pointer-events: none; transition: opacity .2s; max-width: calc(100vw - 32px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; z-index: 10; }
+.toast.show { opacity: 1; }
+
+@media (max-width: 1100px) { .app { grid-template-columns: 270px minmax(0, 1fr) 280px; } }
+@media (max-width: 1000px) and (min-width: 861px) {
+  html, body { height: auto; }
+  .app { grid-template-columns: 260px minmax(0, 1fr); height: auto; }
+  .left { grid-row: 1 / span 2; height: 100vh; position: sticky; top: 0; }
+  .center { min-height: 100vh; overflow: visible; }
+  .right { grid-column: 2; border-left: 0; border-top: 1px solid var(--line); }
 }
-@media (prefers-reduced-motion: reduce) { .row.arrive, .pill.scanning .dot, .fdot.scanning { animation: none; } }
+@media (max-width: 860px) {
+  html, body { height: auto; }
+  .app { grid-template-columns: 1fr; height: auto; }
+  .left { border-right: 0; border-bottom: 1px solid var(--line); height: 70vh; }
+  .center { min-height: 70vh; }
+  .actions { max-height: none; padding: 16px; }
+  .thread { padding: 16px; }
+  .right { border-left: 0; border-top: 1px solid var(--line); }
+  .kbd-hint { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .srow.arrive, .pill.scanning .dot { animation: none; } }
 </style>
 </head>
 <body>
 <div class="app">
-  <aside class="sidebar">
-    <div class="sb-head">
-      <div class="logo">IG</div><div class="brand">Inbox Guard</div>
-      <span class="conn" id="conn"><span class="d"></span><span id="connText">connecting</span></span>
-    </div>
+  <!-- LEFT: sessions that need you (top), every category (bottom) -->
+  <aside class="col left">
+    <div class="brandbar"><div class="logo">IG</div><div class="brand">Inbox Guard</div>
+      <span class="conn" id="conn"><span class="d"></span><span id="connText">connecting</span></span></div>
     <div id="banner"></div>
-    <div class="sb-actions">
-      <button class="btn-ghost" id="simulate" title="POST a real attack email (or a benign one) to /emails">＋ Simulate incoming email</button>
-    </div>
-    <div class="sb-scroll" id="sidebar"></div>
-    <div class="sb-foot">
-      <input id="apiInput" spellcheck="false" aria-label="API base URL">
-      <button id="apiSave">Connect</button>
-    </div>
+    <button class="btn-ghost" id="simulate" title="POST a demo email to /emails">＋ Simulate incoming email</button>
+    <div class="attn scroll" id="attn"></div>
+    <div class="split"></div>
+    <div class="cats scroll" id="cats"></div>
+    <div class="foot"><input id="apiInput" spellcheck="false" aria-label="API base URL"><button id="apiSave">Connect</button></div>
   </aside>
-  <main class="main">
-    <div class="topbar"><div class="crumb" id="crumb"></div>
-      <div class="kbd-hint"><span><kbd>J</kbd><kbd>K</kbd> move</span><span><kbd>A</kbd> approve</span><span><kbd>R</kbd> reject</span></div>
-    </div>
-    <div class="detail" id="detail"></div>
-    <div class="actionbar" id="actionbar" hidden></div>
-  </main>
+
+  <!-- CENTER: actions needed (top), emails in session (bottom) -->
+  <main class="col center scroll" id="center"></main>
+
+  <!-- RIGHT: category, rules, chat -->
+  <aside class="col right" id="right"></aside>
 </div>
 <div class="toast" id="toast"></div>
 <script src="samples.js"></script>
+<script src="data.js"></script>
 <script>
 /*
-  Inbox Guard dashboard. Talks to:
-    POST /emails {subject, body, sender?, id?} -> Decision
-    GET  /decisions?status=needs_approval     -> Decision[] (newest first)
-    GET  /decisions                           -> Decision[] (optional; used for categories + Done shelf)
-    POST /decisions/{id}/approve | /reject
-
-  Decision fields this reads (all optional except id; see normalize()):
-    id, status ("needs_approval" | "approved" | "rejected" | "allowed" | "blocked" | "pending"),
-    verdict / action ("allow" | "quarantine" | "strip" | "block"), reason, category,
-    subject, body, sender  (or nested under `email`),
-    proposed_action / agent_action ({type, to, summary} or a string), created_at.
-
-  API base: ?api=http://host:port, or the box at the bottom of the sidebar. If the API cannot be
-  reached, the page runs on built-in demo data (real LLMail-Inject attack emails) so the UI can be shown.
-  All email text is rendered with textContent: it is untrusted and never parsed as HTML.
+  Layout (from the team wireframe):
+    left   - sessions needing you, each tagged (T3-style pill), then categories -> sessions
+    center - "actions needed" for the open session, then the session's emails stacked like a chat
+    right  - category, its rules, and a chat about the category
+  A session is a thread of emails: Decision.session_id / thread_id if the backend sends one, else one per sender.
+  Rules and chat live in localStorage. Chat calls POST /categories/{name}/chat if the API has it,
+  otherwise a local demo responder answers (and turns "always/never/..." messages into rules).
+  Email text is untrusted: rendered with textContent only.
 */
 (() => {
-"use strict";
 const $ = (id) => document.getElementById(id);
-const store = (k, v) => { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch { return null; } };
-
-// ---------- attention model (T3 Code's resolveThreadStatusPill, for email) ----------
-const KINDS = {
-  approval: { label: "Needs Approval", rank: 0, needsYou: true },
-  review:   { label: "Review",         rank: 1, needsYou: true },
-  blocked:  { label: "Blocked",        rank: 2, needsYou: false },
-  scanning: { label: "Scanning",       rank: 3, needsYou: false },
-  cleared:  { label: "Cleared",        rank: 4, needsYou: false },
-  done:     { label: "Done",           rank: 9, needsYou: false },
-};
-const seen = new Set(JSON.parse(store("ig.seen") || "[]"));
-const markSeen = (id) => { if (!seen.has(id)) { seen.add(id); store("ig.seen", JSON.stringify([...seen].slice(-2000))); } };
-
-function kindOf(d) {
-  const s = d.status;
-  if (s === "approved" || s === "rejected") return "done";
-  if (s === "pending" || s === "processing" || s === "scanning") return "scanning";
-  // Suspected injection (quarantine/strip/block) -> Review (pink). A legit email where the agent wants to act -> Approval (amber).
-  if (s === "needs_approval") return ["quarantine", "strip", "block"].includes(d.verdict) || !d.action ? "review" : "approval";
-  if (d.verdict === "block" || d.verdict === "strip" || s === "blocked") return seen.has(d.id) ? "done" : "blocked";
-  return seen.has(d.id) ? "done" : "cleared"; // allowed: shows green until you look at it
-}
-
-// ---------- normalize whatever the backend sends ----------
-function pick(o, ...keys) { for (const k of keys) { if (o && o[k] != null && o[k] !== "") return o[k]; } return undefined; }
-function normalize(raw) {
-  const e = raw.email || {};
-  let a = pick(raw, "proposed_action", "agent_action", "requested_action", "tool_call");
-  if (typeof a === "string") a = { summary: a };
-  if (a && typeof a === "object" && !a.summary) a.summary = [a.type || a.name || "action", a.to && `to ${a.to}`].filter(Boolean).join(" ");
-  const verdict = String(pick(raw, "verdict", "decision", "action", "label") ?? "").toLowerCase();
-  const status = String(pick(raw, "status", "state") ?? (verdict === "allow" ? "allowed" : verdict ? "needs_approval" : "pending")).toLowerCase();
-  const created = pick(raw, "created_at", "createdAt", "timestamp", "received_at") ?? new Date().toISOString();
-  return {
-    id: String(raw.id),
-    status,
-    verdict: ["allow", "quarantine", "strip", "block"].includes(verdict) ? verdict : verdict || null,
-    reason: pick(raw, "reason", "explanation", "rationale") ?? "",
-    category: pick(raw, "category", "label_category", "folder") ?? pick(e, "category") ?? "Uncategorized",
-    subject: pick(raw, "subject") ?? pick(e, "subject") ?? "(no subject)",
-    body: pick(raw, "body", "stripped_body") ?? pick(e, "body") ?? "",
-    sender: pick(raw, "sender", "from") ?? pick(e, "sender", "from") ?? "unknown sender",
-    action: a && typeof a === "object" ? a : null,
-    score: pick(raw, "score", "risk", "confidence"),
-    source: pick(raw, "source") ?? pick(e, "source"),
-    created,
-    t: Date.parse(created) || Date.now(),
-    raw,
-  };
-}
-
-// ---------- API client, with a demo backend when the real one is unreachable ----------
-const DEFAULT_API = "http://localhost:8000";
-const qs = new URLSearchParams(location.search).get("api");
-let API = (qs || store("ig.api") || DEFAULT_API).replace(/\/$/, "");
-let mode = "connecting"; // "live" | "demo"
-let hasListAll = true;
-
-async function http(method, path, body) {
-  const r = await fetch(API + path, { method, headers: body ? { "Content-Type": "application/json" } : {}, body: body ? JSON.stringify(body) : undefined });
-  if (!r.ok) throw Object.assign(new Error(`${method} ${path} -> ${r.status}`), { status: r.status });
-  return r.status === 204 ? null : r.json();
-}
-const asList = (x) => Array.isArray(x) ? x : (x && (x.decisions || x.items || x.data)) || [];
-
-const demo = (() => {
-  const db = new Map(); let n = 0;
-  const CATS = [
-    ["Finance", /invoice|payment|wire|bank|\$\d|receipt|order #|transfer/i],
-    ["Scheduling", /meeting|1:1|calendar|thursday|offsite|agenda|pto|saturday/i],
-    ["Security", /password|reset|verify|login|account/i],
-    ["Newsletters", /digest|newsletter|unsubscribe|this week/i],
-    ["Personal", /dinner|lunch|weekend|family/i],
-  ];
-  const INJ = /api_call|send (an )?e-?mail|contact@contact|ignore (all|previous|prior)|system|assistant|instruction|<\|?|\bexfil|summar/i;
-  function classify(e) {
-    const text = `${e.subject}\n${e.body}`;
-    const category = (CATS.find(([, re]) => re.test(text)) || ["Work"])[0];
-    const to = (text.match(/[\w.+-]+\s*@\s*[\w-]+\s*\.\s*\w+/) || [])[0]?.replace(/\s+/g, "");
-    if (INJ.test(text)) {
-      if (to && /send|forward|email/i.test(text))
-        return { category, status: "needs_approval", verdict: "quarantine",
-          proposed_action: { type: "send_email", to, summary: `send_email to ${to}` },
-          reason: "The email tells the agent to send a message to an address you have never written to. The instruction came from email content, not from you." };
-      return { category, status: "needs_approval", verdict: "quarantine", reason: "The email reads like instructions to an AI assistant (talks to the assistant, mentions tools or system prompts). Held for review before the agent reads it." };
-    }
-    if (/wire|transfer|urgent.*pay/i.test(text))
-      return { category, status: "needs_approval", verdict: "allow", proposed_action: { type: "pay", summary: "Draft a $9,800 wire to a new vendor account" }, reason: "Money movement requested by email, from a lookalike domain. Agent will not pay without you." };
-    if (/send me|could you send|approve/i.test(text) && e.sender?.endsWith("acme.example"))
-      return { category, status: "needs_approval", verdict: "allow", proposed_action: { type: "reply", to: e.sender, summary: `Reply to ${e.sender} with the requested item` }, reason: "Known colleague asked for something. Agent drafted a reply and needs your OK to send it." };
-    return { category, status: "allowed", verdict: "allow", reason: "No instructions aimed at the assistant. Passed to the agent." };
-  }
-  return {
-    async post(e) {
-      const id = e.id || `demo-${Date.now().toString(36)}-${n++}`;
-      const d = { id, subject: e.subject, body: e.body, sender: e.sender, source: e.source, created_at: new Date().toISOString(), status: "pending" };
-      db.set(id, d);
-      setTimeout(() => Object.assign(d, classify(e)), 900 + Math.random() * 900); // "scanning" for a moment
-      return { ...d };
-    },
-    async list(status) { return [...db.values()].filter((d) => !status || d.status === status).sort((a, b) => b.created_at.localeCompare(a.created_at)).map((d) => ({ ...d })); },
-    async resolve(id, how) { const d = db.get(id); if (d) d.status = how === "approve" ? "approved" : "rejected"; return { ...d }; },
-    seed() { const s = window.SAMPLE_EMAILS || []; s.slice(0, 14).forEach((e, i) => { const id = `seed-${i}`; db.set(id, { id, ...e, ...classify(e), created_at: new Date(Date.now() - (i + 1) * 7.3 * 60000).toISOString() }); }); },
-  };
-})();
-
-const api = {
-  async postEmail(e) { return mode === "demo" ? demo.post(e) : http("POST", "/emails", { subject: e.subject, body: e.body, sender: e.sender }); },
-  async needsApproval() { return mode === "demo" ? demo.list("needs_approval") : asList(await http("GET", "/decisions?status=needs_approval")); },
-  async all() {
-    if (mode === "demo") return demo.list();
-    if (!hasListAll) return null;
-    try { return asList(await http("GET", "/decisions")); } catch (e) { if (e.status === 404 || e.status === 405 || e.status === 422) { hasListAll = false; return null; } throw e; }
-  },
-  async resolve(id, how) { return mode === "demo" ? demo.resolve(id, how) : http("POST", `/decisions/${encodeURIComponent(id)}/${how}`); },
-};
-
-// ---------- state ----------
-const decisions = new Map(); // id -> normalized
-let selectedId = null;
-const openFolders = new Set(JSON.parse(store("ig.open") || '["__needs"]'));
+const decisions = new Map();
+let selSession = null, selCategory = null;
 let firstLoad = true; const arrived = new Set();
-let pollTimer = null;
+const openCats = new Set(JSON.parse(store("ig.openCats") || "[]"));
+const expanded = new Set();
 
+// ---------- data in ----------
 function upsert(list, { authoritativeNeeds } = {}) {
   const now = new Set();
   for (const raw of list) {
     if (raw == null || raw.id == null) continue;
     const d = normalize(raw); now.add(d.id);
-    if (!decisions.has(d.id) && !firstLoad) arrived.add(d.id);
+    if (!decisions.has(d.id) && !firstLoad) arrived.add(d.session);
     decisions.set(d.id, d);
   }
-  // If we only have the needs_approval list, anything that left it was resolved elsewhere.
   if (authoritativeNeeds) for (const d of decisions.values()) if (d.status === "needs_approval" && !now.has(d.id)) d.status = d._local || "approved";
 }
-
 async function refresh() {
   try {
-    const [needs, all] = await Promise.all([api.needsApproval(), api.all()]);
-    if (all) upsert(all); upsert(needs, { authoritativeNeeds: !all });
+    const [needs, everything] = await Promise.all([api.needsApproval(), api.all()]);
+    if (everything) upsert(everything); upsert(needs, { authoritativeNeeds: !everything });
     if (mode !== "live" && mode !== "demo") setMode("live");
   } catch (err) {
-    // Never reached the API: fall back to demo data. Lost it mid-session: keep live data, show offline.
     if (mode === "connecting") { setMode("demo"); demo.seed(); return refresh(); }
     if (mode === "live") setMode("offline");
   }
   firstLoad = false;
+  if (!selSession && !selCategory) { const s = attention()[0]; if (s) { selSession = s.key; selCategory = s.category; } }
   render();
 }
-
 function setMode(m) {
   mode = m;
   $("conn").className = "conn " + m;
   $("connText").textContent = { live: "live", demo: "demo data", offline: "offline, retrying" }[m] || "connecting";
   const b = $("banner"); b.replaceChildren();
-  if (m === "demo") {
-    const el = document.createElement("div"); el.className = "banner";
-    el.append("No API at ", Object.assign(document.createElement("b"), { textContent: API }), ". Showing demo data: real LLMail-Inject attack emails, classified in the browser.");
-    b.append(el);
-  }
+  if (m === "demo") { const el = h("div", "banner"); el.append("No API at ", h("b", null, API), ". Demo data: real LLMail-Inject attack emails, classified in the browser."); b.append(el); }
 }
 
-// ---------- derived views ----------
-const all = () => [...decisions.values()];
-const byNewest = (a, b) => b.t - a.t;
-const needsYou = () => all().filter((d) => KINDS[kindOf(d)].needsYou).sort(byNewest);
+// ---------- sessions (T3 threads) and categories (T3 folders) ----------
+const rank = (k) => KINDS[k].rank;
+function sessions() {
+  const m = new Map();
+  for (const d of decisions.values()) (m.get(d.session) || m.set(d.session, []).get(d.session)).push(d);
+  return [...m.entries()].map(([key, items]) => {
+    items.sort((a, b) => a.t - b.t);
+    const last = items[items.length - 1];
+    const kinds = items.map(kindOf);
+    const kind = kinds.reduce((a, b) => (rank(b) < rank(a) ? b : a), "done");
+    const pending = items.filter((d) => KINDS[kindOf(d)].needsYou);
+    return { key, items, last, kind, pending, category: last.category, t: last.t,
+             title: last.subject, sender: last.sender, needsYou: pending.length > 0 };
+  });
+}
+const attention = () => sessions().filter((s) => s.needsYou).sort((a, b) => b.t - a.t);
 function categories() {
   const m = new Map();
-  for (const d of all()) { if (kindOf(d) === "done") continue; (m.get(d.category) || m.set(d.category, []).get(d.category)).push(d); }
-  return [...m.entries()].map(([name, items]) => {
-    items.sort((a, b) => KINDS[kindOf(a)].rank - KINDS[kindOf(b)].rank || byNewest(a, b));
-    const kinds = new Set(items.map(kindOf));
-    const dot = kinds.has("approval") ? "attention" : kinds.has("review") ? "review" : kinds.has("blocked") ? "blocked" : kinds.has("cleared") ? "unread" : kinds.has("scanning") ? "scanning" : null;
-    const urgent = items.filter((d) => KINDS[kindOf(d)].needsYou).length;
-    return { name, items, dot, urgent };
+  for (const s of sessions()) (m.get(s.category) || m.set(s.category, []).get(s.category)).push(s);
+  return [...m.entries()].map(([name, ss]) => {
+    ss.sort((a, b) => rank(a.kind) - rank(b.kind) || b.t - a.t);
+    const kind = ss.reduce((a, s) => (rank(s.kind) < rank(a) ? s.kind : a), "done");
+    return { name, sessions: ss, kind, urgent: ss.filter((s) => s.needsYou).length };
   }).sort((a, b) => b.urgent - a.urgent || a.name.localeCompare(b.name));
 }
-const doneList = () => all().filter((d) => kindOf(d) === "done").sort(byNewest);
-const scanning = () => all().filter((d) => kindOf(d) === "scanning");
 
-// ---------- rendering (textContent only for email data) ----------
+// ---------- tiny DOM helpers ----------
 function h(tag, cls, ...kids) { const el = document.createElement(tag); if (cls) el.className = cls; for (const k of kids) if (k != null) el.append(k); return el; }
-function pill(kind) { const p = h("span", `pill ${kind}`, h("span", "dot")); p.append(KINDS[kind].label); p.title = KINDS[kind].label; return p; }
+function pill(kind, label) { const p = h("span", `pill ${kind}`, h("span", "dot")); p.append(label || KINDS[kind].label); return p; }
+const PILL_SHORT = { approval: "Approve", review: "Review", blocked: "Blocked", scanning: "Scanning", cleared: "Cleared", done: "Done" };
 function ago(t) { const s = Math.max(0, (Date.now() - t) / 1000); if (s < 45) return "now"; if (s < 3600) return `${Math.round(s / 60)}m`; if (s < 86400) return `${Math.round(s / 3600)}h`; return `${Math.round(s / 86400)}d`; }
 
-function row(d, { showCat } = {}) {
-  const k = kindOf(d);
-  const r = h("div", "row" + (d.id === selectedId ? " sel" : "") + (k === "done" ? " quiet" : "") + (arrived.has(d.id) ? " arrive" : ""));
-  r.dataset.id = d.id; r.tabIndex = -1;
-  r.append(h("div", "subj", d.subject), h("div", "time", ago(d.t)));
-  const meta = h("div", "meta", pill(k), h("span", "who", showCat ? `${d.category} · ${d.sender}` : d.sender));
-  r.append(meta);
-  r.onclick = () => select(d.id);
+function sessionRow(s, { inCat } = {}) {
+  const r = h("div", "srow" + (s.key === selSession ? " sel" : "") + (s.kind === "done" ? " quiet" : "") + (arrived.has(s.key) ? " arrive" : "") + (inCat ? " in-cat" : ""));
+  const main = h("div");
+  if (!inCat) main.append(h("div", "cat", s.category));
+  main.append(h("div", "title", s.title));
+  if (inCat) main.append(h("div", "n-emails", `${s.items.length} email${s.items.length > 1 ? "s" : ""} · ${s.sender}`));
+  const side = h("div", "side", pill(s.kind, s.pending.length > 1 ? `${PILL_SHORT[s.kind]} ${s.pending.length}` : PILL_SHORT[s.kind]), h("span", "time", ago(s.t)));
+  r.append(main, side);
+  r.onclick = () => openSession(s.key);
   return r;
 }
 
-function section(key, title, count, bodyFn, { cls = "", alwaysOpen = false } = {}) {
-  const open = alwaysOpen || openFolders.has(key);
-  const head = h("div", `sec-h ${alwaysOpen ? "" : "toggle"} ${open ? "open" : ""} ${cls}`);
-  if (!alwaysOpen) { head.append(h("span", "chev", "›")); head.onclick = () => toggle(key); }
-  head.append(title); if (count != null) head.append(h("span", "count", String(count)));
-  const frag = h("div"); frag.append(head); if (open) frag.append(bodyFn()); return frag;
-}
-function toggle(key) { openFolders.has(key) ? openFolders.delete(key) : openFolders.add(key); store("ig.open", JSON.stringify([...openFolders])); render(); }
+// ---------- left ----------
+function renderLeft() {
+  const at = $("attn"), keepA = at.scrollTop; at.replaceChildren();
+  const list = attention();
+  const head = h("div", "sec h-label", "Needs you");
+  const total = list.reduce((n, s) => n + s.pending.length, 0);
+  head.append(h("span", "needs-badge" + (total ? "" : " zero"), String(total)));
+  at.append(head);
+  if (list.length) list.forEach((s) => at.append(sessionRow(s)));
+  else { const z = h("div", "zero-card"); z.append(h("b", null, "Inbox zero. "), "Nothing is waiting on you."); at.append(z); }
+  at.scrollTop = keepA;
 
-function renderSidebar() {
-  const sb = $("sidebar"); const keep = sb.scrollTop; sb.replaceChildren();
-  // 1. Needs you: the T3 "active inbox", newest first, across categories
-  const needs = needsYou();
-  const head = h("div", "sec-h needs-h", "Needs you");
-  head.append(h("span", "needs-badge" + (needs.length ? "" : " zero"), String(needs.length)));
-  sb.append(head);
-  if (needs.length) needs.forEach((d) => sb.append(row(d, { showCat: true })));
-  else { const z = h("div", "zero-card"); z.append(h("b", null, "Inbox zero. "), "Nothing is waiting on you. New approvals and reviews land here."); sb.append(z); }
-
-  // 2. Scanning: collapsed, like T3's Working shelf
-  const sc = scanning();
-  if (sc.length) sb.append(section("__scan", "Scanning", sc.length, () => { const b = h("div"); sc.forEach((d) => b.append(row(d, { showCat: true }))); return b; }));
-
-  // 3. Categories: folders with a count and the most urgent dot
-  sb.append(h("div", "sec-h", "Categories"));
-  const cats = categories();
-  if (!cats.length) sb.append(h("div", "empty-note", "No open email."));
-  for (const c of cats) {
-    const key = "cat:" + c.name, open = openFolders.has(key);
-    const f = h("div", "folder" + (open ? " open" : ""), h("span", "chev", "›"), h("span", "name", c.name));
-    if (c.dot) { const dt = h("span", `fdot ${c.dot}`); dt.title = c.dot === "attention" ? "Needs approval" : c.dot; f.append(dt); }
-    f.append(h("span", "n", String(c.items.length)));
-    f.onclick = () => toggle(key);
-    sb.append(f);
-    if (open) { const body = h("div", "folder-body"); c.items.forEach((d) => body.append(row(d))); sb.append(body); }
+  const cs = $("cats"), keepC = cs.scrollTop; cs.replaceChildren();
+  cs.append(h("div", "sec h-label", "Categories"));
+  for (const c of categories()) {
+    const open = openCats.has(c.name);
+    const f = h("div", "folder" + (open ? " open" : "") + (c.name === selCategory ? " cur" : ""), h("span", "chev", "›"), h("span", "name", c.name));
+    if (c.kind !== "done") f.append(h("span", `fdot ${c.kind}`));
+    f.append(h("span", "n", String(c.sessions.length)));
+    f.onclick = () => { open ? openCats.delete(c.name) : openCats.add(c.name); store("ig.openCats", JSON.stringify([...openCats])); selCategory = c.name; render(); };
+    cs.append(f);
+    if (open) c.sessions.forEach((s) => cs.append(sessionRow(s, { inCat: true })));
   }
-
-  // 4. Done: collapsed shelf, like T3's Settled
-  const done = doneList();
-  sb.append(section("__done", "Done", done.length, () => { const b = h("div"); done.slice(0, 60).forEach((d) => b.append(row(d, { showCat: true }))); if (!done.length) b.append(h("div", "empty-note", "Approved and rejected items land here.")); return b; }));
-  sb.scrollTop = keep;
-  document.title = needs.length ? `(${needs.length}) Inbox Guard` : "Inbox Guard";
+  cs.scrollTop = keepC;
+  document.title = total ? `(${total}) Inbox Guard` : "Inbox Guard";
 }
 
-function renderDetail() {
-  const det = $("detail"), bar = $("actionbar"), crumb = $("crumb");
-  det.replaceChildren(); bar.replaceChildren(); crumb.replaceChildren();
-  const d = decisions.get(selectedId);
-  if (!d) {
-    bar.hidden = true;
-    crumb.append(h("b", null, "Needs you"));
-    const counts = { needs: needsYou().length, done: doneList().length, blocked: all().filter((x) => x.verdict === "block" || x.verdict === "strip" || x.verdict === "quarantine").length };
-    const z = h("div", "inbox-zero"); const inner = h("div");
-    inner.append(h("div", "big", counts.needs ? `${counts.needs} waiting on you` : "Inbox zero"), h("div", null, counts.needs ? "Pick one from the sidebar, or press J." : "Every action your agent wanted to take has been handled."));
+// ---------- center ----------
+function actionText(d, k) {
+  const w = h("div", "what");
+  if (k === "approval") { w.append("Approve "); w.append(h("code", null, d.action ? d.action.summary : "this action")); w.append(" to happen?"); }
+  else if (d.action) { w.append("Email tries to make your agent "); w.append(h("code", null, d.action.summary)); w.append(". Release it?"); }
+  else { w.append("Release “", d.subject, "” to your agent?"); }
+  return w;
+}
+function renderCenter() {
+  const c = $("center"); c.replaceChildren();
+  const s = sessions().find((x) => x.key === selSession);
+  if (!s) {
+    const all = [...decisions.values()];
+    const z = h("div", "empty-center"); const inner = h("div");
+    const pend = attention().reduce((n, x) => n + x.pending.length, 0);
+    inner.append(h("div", "big", pend ? `${pend} action${pend > 1 ? "s" : ""} waiting` : "Inbox zero"), h("div", null, pend ? "Open a session on the left, or press J." : "Every action your agent wanted to take has been handled."));
     const st = h("div", "stats");
-    [["needs you", counts.needs], ["held by firewall", counts.blocked], ["resolved", counts.done]].forEach(([l, n]) => { const s = h("div"); s.append(h("b", null, String(n)), l); st.append(s); });
-    inner.append(st); z.append(inner); det.append(z); return;
+    [["sessions", sessions().length], ["held by firewall", all.filter((d) => ["quarantine", "strip", "block"].includes(d.verdict)).length], ["resolved", all.filter((d) => kindOf(d) === "done" && (d.status === "approved" || d.status === "rejected")).length]]
+      .forEach(([l, n]) => { const b = h("div"); b.append(h("b", null, String(n)), l); st.append(b); });
+    inner.append(st); z.append(inner); c.append(z); return;
   }
-  const k = kindOf(d);
-  crumb.append(d.category, " / ", h("b", null, d.subject));
-  const wrap = h("div", "detail-inner");
-  wrap.append(pill(k), h("h1", "subject", d.subject));
-  const from = h("div", "from", `From ${d.sender}`, " · ", new Date(d.t).toLocaleString());
-  if (d.source) from.append(h("span", "src", d.source));
-  wrap.append(from);
-
-  // What the agent wants / why it's held
-  if (k === "approval" || k === "review") {
-    const c = h("div", `card ${k}`);
-    c.append(h("div", "card-h", pill(k), k === "approval" ? "Your agent wants to act on this email" : "Quarantined before your agent read it"));
-    const b = h("div", "card-b");
-    if (d.action) { const ask = h("div", "ask", k === "approval" ? "Agent wants to: " : "This email tries to make your agent: "); ask.append(h("code", null, d.action.summary)); b.append(ask); }
-    else b.append(h("div", "ask", "Release this email to your agent?"));
-    if (d.reason) b.append(h("div", "reason", d.reason));
-    c.append(b); wrap.append(c);
-  } else {
-    const c = h("div", `card ${k}`); c.append(h("div", "card-h", pill(k), k === "done" ? `Resolved: ${d.status}` : "Firewall decision"));
-    const b = h("div", "card-b"); if (d.reason) b.append(h("div", "reason", d.reason)); else b.append(h("div", "reason", "No reason given."));
-    c.append(b); wrap.append(c);
+  // Top: actions needed
+  const top = h("section", "actions");
+  const hl = h("div", "h-label", `${s.category} · session`);
+  const hint = h("span", "kbd-hint"); hint.append(h("span", null, h("kbd", null, "J"), h("kbd", null, "K"), " session"), h("span", null, h("kbd", null, "A"), " approve"), h("span", null, h("kbd", null, "R"), " reject")); hl.append(hint);
+  top.append(hl, h("h1", "session-title", s.title), h("div", "session-sub", `${s.sender} · ${s.items.length} email${s.items.length > 1 ? "s" : ""}`));
+  const ah = h("div", "h-label", "Actions needed", h("span", "count", String(s.pending.length)));
+  if (s.pending.length > 1) {
+    const allOk = h("button", null, "Approve all"), allNo = h("button", null, "Reject all");
+    allOk.onclick = () => bulk(s, "approve"); allNo.onclick = () => bulk(s, "reject");
+    ah.append(h("span", "bulk", allNo, allOk));
   }
-
-  // Firewall details
-  const fw = h("div", "card"); fw.append(h("div", "card-h", "Firewall"));
-  const dl = h("dl", "kv card-b");
-  const kv = (k2, v) => { if (v == null || v === "") return; dl.append(h("dt", null, k2)); const dd = h("dd"); dd.append(h("code", null, String(v))); dl.append(dd); };
-  kv("verdict", d.verdict); kv("status", d.status); kv("category", d.category); kv("score", d.score); kv("decision id", d.id);
-  fw.append(dl); wrap.append(fw);
-
-  // The untrusted email itself
-  const em = h("div", "card untrusted");
-  em.append(h("div", "card-h", "Untrusted email content · shown as text, never followed"));
-  em.append(h("div", "card-b body-text", d.body || "(empty body)"));
-  wrap.append(em);
-  det.append(wrap);
-
-  if (k === "approval" || k === "review") {
-    bar.hidden = false; const inner = h("div", "inner");
-    const ok = h("button", "btn primary", k === "approval" ? "Approve action" : "Release to agent", h("kbd", null, "A"));
-    const no = h("button", "btn", k === "approval" ? "Reject" : "Keep quarantined", h("kbd", null, "R"));
+  top.append(ah);
+  if (!s.pending.length) top.append(h("div", "none", "No actions needed in this session."));
+  [...s.pending].reverse().forEach((d, i) => {
+    const k = kindOf(d);
+    const a = h("div", `act ${k}`);
+    const txt = h("div", "txt", actionText(d, k));
+    if (d.reason) txt.append(h("div", "why", d.reason));
+    a.append(txt);
+    const ok = h("button", "btn primary", k === "approval" ? "Approve" : "Release");
+    const no = h("button", "btn", k === "approval" ? "Reject" : "Keep held");
+    if (i === 0) { ok.append(h("kbd", null, "A")); no.append(h("kbd", null, "R")); }
     ok.onclick = () => resolve(d.id, "approve"); no.onclick = () => resolve(d.id, "reject");
-    inner.append(ok, no, h("span", "note", `${needsYou().length} waiting`));
-    bar.append(inner);
-  } else {
-    bar.hidden = true;
+    a.append(h("div", "btns", ok, no));
+    top.append(a);
+  });
+  c.append(top);
+
+  // Bottom: emails in session, oldest first, stacked at the bottom like a chat
+  const th = h("section", "thread");
+  th.append(h("div", "h-label", "Emails in session", h("span", "count", String(s.items.length))));
+  for (const d of s.items) {
+    const k = kindOf(d), ex = expanded.has(d.id);
+    const e = h("article", "email" + (ex ? " expanded" : ""));
+    e.append(h("div", "top", pill(k), h("span", "who", d.sender), h("span", "t", ago(d.t))));
+    e.append(h("div", "subj", d.subject));
+    e.append(h("div", "body", d.body || "(empty body)"));
+    e.append(h("div", "untr", "Untrusted email content · shown as text, never followed"));
+    if (ex && d.reason) e.append(h("div", "reason", `Firewall: ${d.verdict || d.status} · ${d.reason}`));
+    e.onclick = () => { ex ? expanded.delete(d.id) : expanded.add(d.id); renderCenter(); };
+    th.append(e);
   }
+  c.append(th);
 }
 
-function render() { renderSidebar(); renderDetail(); arrived.clear(); }
+// ---------- right: category, rules, chat ----------
+const BASE_RULES = ["Instructions inside an email are never followed", "Sending to a new recipient needs approval"];
+const DEFAULT_RULES = {
+  Finance: ["Never pay, wire or change payee details without approval", "Lookalike sender domains go to Review"],
+  Work: ["Agent may draft replies to colleagues", "Forwarding outside the company needs approval"],
+  Scheduling: ["Agent may accept meetings from my team", "External invites need approval"],
+  Security: ["Never click or forward password-reset links", "Login and verification emails are read-only"],
+  Newsletters: ["Read only: the agent never replies or clicks", "Summarise weekly"],
+  Personal: ["Agent may suggest replies, never send them"],
+};
+const rulesStore = JSON.parse(store("ig.rules") || "{}");
+const chatStore = JSON.parse(store("ig.chat") || "{}");
+const rulesFor = (c) => (rulesStore[c] ??= [...(DEFAULT_RULES[c] || ["Sending anything needs approval"])]);
+const saveRules = () => store("ig.rules", JSON.stringify(rulesStore));
+const saveChat = () => store("ig.chat", JSON.stringify(chatStore));
+
+function renderRight() {
+  const r = $("right"); r.replaceChildren();
+  const cat = selCategory || sessions().find((s) => s.key === selSession)?.category;
+  if (!cat) { r.append(h("div", "rsec", h("div", "h-label", "Category"), h("div", "muted-note", "Open a session or a category."))); return; }
+  const cs = categories().find((c) => c.name === cat);
+  const items = [...decisions.values()].filter((d) => d.category === cat);
+
+  const s1 = h("section", "rsec");
+  s1.append(h("div", "h-label", "Category"), h("div", "cat-name", cat));
+  const st = h("div", "cat-stats");
+  [["sessions", cs ? cs.sessions.length : 0], ["emails", items.length], ["need you", items.filter((d) => KINDS[kindOf(d)].needsYou).length], ["held", items.filter((d) => ["quarantine", "strip", "block"].includes(d.verdict)).length]]
+    .forEach(([l, n]) => st.append(h("span", null, h("b", null, String(n)), " " + l)));
+  s1.append(st); r.append(s1);
+
+  const s2 = h("section", "rsec");
+  s2.append(h("div", "h-label", "Category rules", h("span", "count", String(rulesFor(cat).length + BASE_RULES.length))));
+  const ul = h("ul", "rules");
+  BASE_RULES.forEach((t) => { const li = h("li", "base", h("span", null, t)); li.title = "Applies to every category"; ul.append(li); });
+  rulesFor(cat).forEach((t, i) => { const x = h("button", null, "×"); x.title = "Remove rule"; x.onclick = () => { rulesFor(cat).splice(i, 1); saveRules(); renderRight(); }; ul.append(h("li", null, h("span", null, t), x)); });
+  s2.append(ul);
+  const add = h("form", "addrow"); const inp = h("input"); inp.placeholder = "Add a rule for " + cat; add.append(inp, h("button", null, "Add"));
+  add.onsubmit = (e) => { e.preventDefault(); const v = inp.value.trim(); if (!v) return; rulesFor(cat).push(v); saveRules(); renderRight(); };
+  s2.append(add); r.append(s2);
+
+  const s3 = h("section", "chat");
+  s3.append(h("div", "h-label", "Category chat"));
+  const msgs = h("div", "msgs");
+  const log = (chatStore[cat] ??= []);
+  if (!log.length) msgs.append(h("div", "muted-note", `Ask about ${cat}, or tell it a rule: “Never reply to vendors without asking me.”`));
+  log.forEach((m) => { const el = h("div", `msg ${m.who}`, m.text); if (m.src) el.append(h("span", "src", m.src)); msgs.append(el); });
+  const form = h("form"); const ta = h("textarea"); ta.placeholder = `Message ${cat}…`; form.append(ta, h("button", null, "Send"));
+  ta.onkeydown = (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); form.requestSubmit(); } };
+  form.onsubmit = (e) => { e.preventDefault(); const v = ta.value.trim(); if (v) chat(cat, v); };
+  s3.append(msgs, form); r.append(s3);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+async function chat(cat, text) {
+  const log = (chatStore[cat] ??= []); log.push({ who: "me", text }); saveChat(); renderRight();
+  let reply = null, src = "";
+  if (mode === "live") {
+    try { const r = await fetch(`${API}/categories/${encodeURIComponent(cat)}/chat`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ message: text, rules: [...BASE_RULES, ...rulesFor(cat)] }) });
+      if (r.ok) { const j = await r.json(); reply = j.reply ?? j.message ?? JSON.stringify(j); if (Array.isArray(j.rules)) { rulesStore[cat] = j.rules; saveRules(); } src = "API"; } } catch {}
+  }
+  if (reply == null) { reply = localReply(cat, text); src = "demo responder (no /categories/{name}/chat endpoint)"; }
+  log.push({ who: "bot", text: reply, src }); saveChat(); renderRight();
+}
+function localReply(cat, text) {
+  if (/^\s*(always|never|don'?t|do not|only|require|ask|block|allow|hold|quarantine|auto)/i.test(text)) {
+    rulesFor(cat).push(text.replace(/\s+/g, " ").replace(/^./, (c) => c.toUpperCase())); saveRules();
+    return `Added to ${cat} rules. Note: in demo mode rules are saved in this browser and shown to the team; the firewall backend has to read them to enforce them.`;
+  }
+  const items = [...decisions.values()].filter((d) => d.category === cat);
+  const held = items.filter((d) => ["quarantine", "strip", "block"].includes(d.verdict));
+  const need = items.filter((d) => KINDS[kindOf(d)].needsYou);
+  const lastHeld = held.sort((a, b) => b.t - a.t)[0];
+  const pl = (n, w) => `${n} ${w}${n === 1 ? "" : "s"}`;
+  return `${cat}: ${pl(items.length, "email")} in ${pl(new Set(items.map((d) => d.session)).size, "session")}. ${need.length} need you, ${held.length} held by the firewall.` + (lastHeld ? `\nLatest hold: “${lastHeld.subject}” from ${lastHeld.sender}. ${lastHeld.reason}` : "");
+}
+
+function render() { renderLeft(); renderCenter(); renderRight(); arrived.clear(); }
 
 // ---------- actions ----------
-function select(id) {
-  selectedId = id; const d = decisions.get(id);
-  if (d) markSeen(id);
+function openSession(key) {
+  selSession = key; const s = sessions().find((x) => x.key === key);
+  if (s) { selCategory = s.category; s.items.forEach((d) => markSeen(d.id)); }
   render();
-  document.querySelector(`.row[data-id="${CSS.escape(id)}"]`)?.scrollIntoView({ block: "nearest" });
 }
-function nextAfter(id) { const list = needsYou(); const i = list.findIndex((d) => d.id === id); const rest = list.filter((d) => d.id !== id); return rest[Math.min(Math.max(i, 0), rest.length - 1)]?.id ?? null; }
-
 async function resolve(id, how) {
   const d = decisions.get(id); if (!d) return;
-  const next = nextAfter(id), prev = d.status;
-  d.status = how === "approve" ? "approved" : "rejected"; d._local = d.status; // optimistic
-  selectedId = next; render();
-  toast(`${how === "approve" ? "Approved" : "Rejected"}: ${d.subject}`);
+  const prev = d.status; d.status = how === "approve" ? "approved" : "rejected"; d._local = d.status;
+  const s = sessions().find((x) => x.key === d.session);
+  if (s && !s.needsYou) { const nxt = attention()[0]; if (nxt) { selSession = nxt.key; selCategory = nxt.category; } } // session cleared: move to the next one
+  render(); toast(`${how === "approve" ? "Approved" : "Rejected"}: ${d.action ? d.action.summary : d.subject}`);
   try { const res = await api.resolve(id, how); if (res && res.id != null) upsert([res]); }
   catch (err) { d.status = prev; toast(`Could not ${how}: ${err.message}`); }
   render();
 }
-
-let simIdx = Number(store("ig.sim") || 14);
+async function bulk(s, how) {
+  const ids = s.pending.map((d) => d.id);
+  for (const id of ids) await resolve(id, how);
+  toast(`${how === "approve" ? "Approved" : "Rejected"} ${ids.length} actions in “${s.title}”`);
+}
+let simIdx = Number(store("ig.sim") || 22);
 async function simulate() {
   const s = window.SAMPLE_EMAILS || []; if (!s.length) return;
   const e = s[simIdx++ % s.length]; store("ig.sim", String(simIdx));
-  try { const res = await api.postEmail(e); if (res && res.id != null) { const d = normalize(res); arrived.add(d.id); decisions.set(d.id, d); } render(); toast(`Incoming: ${e.subject}`); setTimeout(refresh, 1200); setTimeout(refresh, 2400); }
+  try { const res = await api.postEmail(e); if (res && res.id != null) { const d = normalize(res); decisions.set(d.id, d); arrived.add(d.session); } render(); toast(`Incoming: ${e.subject}`); setTimeout(refresh, 1300); setTimeout(refresh, 2600); }
   catch (err) { toast(`POST /emails failed: ${err.message}`); }
 }
-
-let toastT; function toast(msg) { const t = $("toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove("show"), 2600); }
+let tt; function toast(m) { const t = $("toast"); t.textContent = m; t.classList.add("show"); clearTimeout(tt); tt = setTimeout(() => t.classList.remove("show"), 2600); }
 
 document.addEventListener("keydown", (e) => {
   if (e.target.closest("input, textarea") || e.metaKey || e.ctrlKey || e.altKey) return;
-  const list = needsYou().length ? needsYou() : all().sort(byNewest);
-  const i = list.findIndex((d) => d.id === selectedId);
-  if (e.key === "j" || e.key === "ArrowDown") { e.preventDefault(); const n = list[Math.min(i + 1, list.length - 1)]; if (n) select(n.id); }
-  else if (e.key === "k" || e.key === "ArrowUp") { e.preventDefault(); const n = list[Math.max(i - 1, 0)]; if (n) select(n.id); }
-  else if (e.key === "a" || e.key === "r") { const d = decisions.get(selectedId); if (d && KINDS[kindOf(d)].needsYou) resolve(d.id, e.key === "a" ? "approve" : "reject"); }
-  else if (e.key === "Escape") { selectedId = null; render(); }
+  const list = attention().length ? attention() : sessions().sort((a, b) => b.t - a.t);
+  const i = list.findIndex((s) => s.key === selSession);
+  if (e.key === "j" || e.key === "ArrowDown") { e.preventDefault(); const n = list[Math.min(i + 1, list.length - 1)]; if (n) openSession(n.key); }
+  else if (e.key === "k" || e.key === "ArrowUp") { e.preventDefault(); const n = list[Math.max(i - 1, 0)]; if (n) openSession(n.key); }
+  else if (e.key === "a" || e.key === "r") { const s = sessions().find((x) => x.key === selSession); const d = s && s.pending[s.pending.length - 1]; if (d) resolve(d.id, e.key === "a" ? "approve" : "reject"); }
+  else if (e.key === "Escape") { selSession = null; render(); }
 });
-
 $("simulate").onclick = simulate;
 $("apiInput").value = API;
-$("apiSave").onclick = () => { API = $("apiInput").value.trim().replace(/\/$/, "") || DEFAULT_API; store("ig.api", API); decisions.clear(); hasListAll = true; firstLoad = true; selectedId = null; setMode("connecting"); refresh(); };
+$("apiSave").onclick = () => { API = $("apiInput").value.trim().replace(/\/$/, "") || "http://localhost:8000"; store("ig.api", API); decisions.clear(); hasListAll = true; firstLoad = true; selSession = selCategory = null; setMode("connecting"); refresh(); };
 $("apiInput").addEventListener("keydown", (e) => { if (e.key === "Enter") $("apiSave").click(); });
 
-setMode("connecting");
-refresh();
-pollTimer = setInterval(refresh, 2500);
+setMode("connecting"); refresh(); setInterval(refresh, 2500);
 })();
 </script>
 </body>

@@ -1,6 +1,14 @@
 # Inbox Guard dashboard
 
-A T3 Code-style attention sidebar for the inbox firewall. See [T3_ATTENTION_REPORT.md](T3_ATTENTION_REPORT.md) for the pattern it copies.
+A T3 Code-style attention dashboard for the inbox firewall, laid out from the team wireframe:
+
+- **Left:** sessions that need you (category label, title, tag on the right), then every category with its sessions.
+- **Center:** actions needed for the open session (Approve / Reject, plus Approve all / Reject all), then the session's emails stacked like a chat.
+- **Right:** the category, its rules (editable), and a category chat.
+
+A session is a thread of emails: `session_id` / `thread_id` / `conversation_id` on the Decision if the backend sends one, otherwise one session per sender. Rules and chat are stored in the browser. Chat calls `POST /categories/{name}/chat {message, rules}` -> `{reply, rules?}` if the API has it; otherwise a labeled demo responder answers and turns "always/never/..." messages into rules.
+
+The page is See [T3_ATTENTION_REPORT.md](T3_ATTENTION_REPORT.md) for the pattern it copies.
 
 ```bash
 python3 -m http.server 5173 --directory dashboard        # then open http://localhost:5173/?api=http://localhost:8000

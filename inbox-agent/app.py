@@ -7,6 +7,7 @@ import json
 import os
 import time
 import uuid
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Literal, Optional
 
@@ -36,6 +37,14 @@ MODELS = os.environ.get(
 ).split(",")
 STORE = Path(__file__).parent / "decisions.jsonl"
 CONFIDENCE_THRESHOLD = 0.8
+
+# Display names the dashboard groups sessions by.
+CATEGORY_LABELS = {
+    "meeting_scheduling": "Scheduling", "invoice_payment": "Finance",
+    "newsletter_marketing": "Newsletters", "security_or_account": "Security",
+    "suspected_injection": "Security", "info_request": "Work", "task_request": "Work",
+    "forwarded_thread": "Work", "other": "Work",
+}
 
 # Actions the agent may perform on its own. Anything else always goes to a human.
 AUTONOMOUS_ACTIONS = {"archive", "label", "draft_reply", "add_to_calendar", "none"}
@@ -108,6 +117,13 @@ class Decision(BaseModel):
     reason: str
     status: Literal["auto_handled", "needs_approval", "approved", "rejected"]
     resolved_at: Optional[float] = None
+    # Fields the dashboard reads (defaults keep old decisions.jsonl rows loadable).
+    verdict: str = "allow"  # allow | quarantine
+    created_at: Optional[str] = None  # ISO 8601
+    category_raw: Optional[str] = None  # model's slug; `category` holds the dashboard label
+    subject: str = ""
+    body: str = ""
+    sender: Optional[str] = None
 
 
 DECISIONS: dict[str, Decision] = {}
@@ -172,8 +188,15 @@ def ingest(email: EmailIn):
         t = {"category": "other", "injection_suspected": False, "proposed_action": "none",
              "action_detail": "", "can_handle": False, "confidence": 0.0,
              "reason": f"classifier error: {e}"}
-    d = Decision(id=email.id or uuid.uuid4().hex[:12], received_at=time.time(), email=email,
-                 status=gate(t), **t)
+    status = gate(t)  # uses the slug, so compute before relabeling
+    injected = t["injection_suspected"] or t["category"] == "suspected_injection"
+    now = time.time()
+    d = Decision(id=email.id or uuid.uuid4().hex[:12], received_at=now, email=email,
+                 status=status, verdict="quarantine" if injected else "allow",
+                 created_at=datetime.fromtimestamp(now, timezone.utc).isoformat(),
+                 category_raw=t["category"], subject=email.subject, body=email.body,
+                 sender=email.sender,
+                 **{**t, "category": CATEGORY_LABELS.get(t["category"], "Work")})
     DECISIONS[d.id] = d
     persist()
     return d

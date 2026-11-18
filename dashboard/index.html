@@ -260,7 +260,7 @@ function setMode(m) {
   $("conn").className = "conn " + m;
   $("connText").textContent = { live: "live", demo: "demo data", offline: "offline, retrying" }[m] || "connecting";
   const b = $("banner"); b.replaceChildren();
-  if (m === "demo") { const el = h("div", "banner"); el.append("No API at ", h("b", null, API), ". Demo data: real LLMail-Inject attack emails, classified in the browser."); b.append(el); }
+  if (m === "demo" && API !== "demo") { const el = h("div", "banner"); el.append("No API at ", h("b", null, API), ". Demo data: real LLMail-Inject attack emails, classified in the browser."); b.append(el); }
 }
 
 // ---------- sessions (T3 threads) and categories (T3 folders) ----------

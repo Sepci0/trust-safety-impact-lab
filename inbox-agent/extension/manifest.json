@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "Inbox Triage Agent",
+  "version": "0.1",
+  "description": "Sends opened Gmail emails to the triage agent and shows its decision.",
+  "host_permissions": ["https://mail.google.com/*", "http://localhost:8000/*"],
+  "background": { "service_worker": "background.js" },
+  "content_scripts": [
+    { "matches": ["https://mail.google.com/*"], "js": ["content.js"], "run_at": "document_idle" }
+  ]
+}
